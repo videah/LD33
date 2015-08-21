@@ -20,28 +20,20 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local menu = {}
-menu.options = {}
+local state = {}
 
-function menu.update(dt)
+state.currentState = nil
 
+function state.setState(string)
+	state.currentState = string
 end
 
-function menu.draw()
-
-	for i, option in ipairs(menu.options) do
-		love.graphics.print(option.name, 0, 0)
-	end
-
+function state.getState()
+	return state.currentState
 end
 
-function menu.newOption(name, func)
-
-	local tbl = {}
-
-	tbl.name = name
-	tbl.func = func
-
-	table.insert(menu.options, tbl)
-
+function state.isCurrentState(string)
+	return (string == state.currentState)
 end
+
+return state
