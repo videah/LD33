@@ -21,9 +21,16 @@
 -- THE SOFTWARE.
 
 local about = {}
+
 about.font = love.graphics.newFont('fonts/Vera.ttf', 20)
 
+about.iconLD = love.graphics.newImage('game/images/iconLD.png')
+about.iconPotion = love.graphics.newImage('game/images/iconPotion.png')
+about.iconLove = love.graphics.newImage('game/images/iconLove.png')
+
 function about.draw()
+
+	love.graphics.setColor(255, 255, 255)
 
 	love.graphics.setFont(about.font)
 
@@ -31,6 +38,34 @@ function about.draw()
 	local y = 25
 
 	love.graphics.print('About', x, y)
+
+	love.graphics.draw(about.iconLove, x - 78, y + 30)
+
+	love.graphics.draw(about.iconLD, x, y + 30)
+
+	love.graphics.rectangle('fill', x + 78, y + 38, about.iconPotion:getWidth() + 4, about.iconPotion:getHeight() + 4)
+
+	love.graphics.draw(about.iconPotion, x + 80, y + 40)
+
+	love.graphics.setFont(defaultFont)
+
+	local text = 'This short game was made for Ludum Dare 33'
+	local x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
+	local y = 55 + 75
+
+	love.graphics.print(text, x, y)
+
+	local text = 'Powered by LOVE and LovePotion'
+	local x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
+	local y = y + defaultFont:getHeight()
+
+	love.graphics.print(text, x, y)
+
+	local text = 'Press Start (or Escape) to go back.'
+	local x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
+	local y = y + defaultFont:getHeight() * 3
+
+	love.graphics.print(text, x, y)
 
 	love.graphics.setFont(defaultFont)
 
