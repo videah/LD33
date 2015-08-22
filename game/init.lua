@@ -22,25 +22,61 @@
 
 local game = {}
 
+state = require 'game.state'
+local menu = require 'game.menu'
+
 function game.load()
 
+	state.setState('menu')
+
 	print('Loaded "game"')
+	menu.newOption('Play', function() state.setState('game') end)
+	menu.newOption('About', function() state.setState('about') end)
+	menu.newOption('Quit', function() love.event.quit() end)
 
 end
 
 function game.update(dt)
 
+	if state.isCurrentState('menu') then
+
+		menu.update(dt)
+
+	end
+
 end
 
 function game.drawtop()
 
-	love.graphics.print('Hello, World!', 0, 230)
+	if state.isCurrentState('menu') then
+
+		menu.drawtop()
+
+	end
 
 end
 
 function game.drawbottom()
 
-	love.graphics.print('Hello, World!', 320 - 50, 0)
+	if state.isCurrentState('menu') then
+
+		menu.drawbot()
+
+	end
+
+end
+
+function game.mousepressed(button, x, y)
+
+end
+
+function game.keypressed(key, isrepeat)
+
+	if state.isCurrentState('menu') then
+
+		menu.keypressed(key, isrepeat)
+
+	end
 
 end
 

@@ -26,6 +26,12 @@ game = require 'game'
 
 function love.load()
 
+	topScreenWidth = 400
+	topScreenHeight = 240
+
+	botScreenWidth = 320
+	botScreenHeight = 240
+
 	love.window.setMode(400, 240 * 2)
 
 	is3DS = (love.system.getOS() == '3ds')
@@ -89,5 +95,17 @@ function love.draw()
 		love.graphics.pop()
 
 	end
+
+end
+
+function love.mousepressed(x, y, button)
+
+	game.mousepressed(x, y, button)
+
+end
+
+function love.keypressed(key, isrepeat)
+
+	game.keypressed(key, isrepeat)
 
 end
