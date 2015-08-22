@@ -27,6 +27,7 @@ input = require 'game.input'
 
 local menu = require 'game.menu'
 local about = require 'game.about'
+local gameover = require 'game.gameover'
 
 local citizen = require 'game.entities.citizen'
 
@@ -50,6 +51,10 @@ function game.load()
 
 	spawnTimer = 0
 
+	game.jobs = 5
+
+	game.maxeaten = 5
+
 	print('Loaded "game"')
 
 end
@@ -70,13 +75,17 @@ function game.update(dt)
 
 			person:update(dt)
 
-			if game.player:isTouching(person.x, person.y) and game.player.eaten < 10 and person.state == 'running' then
+			if game.player:isTouching(person.x, person.y) and game.player.eaten < game.maxeaten and person.state == 'running' then
 				table.remove(game.citizens, i)
 				game.player.eaten = game.player.eaten + 1
 			end
 
 			if person.y > topScreenHeight or person.y < 0 then
 				table.remove(game.citizens, i)
+			end
+
+			if person.y > topScreenHeight then
+				game.jobs = game.jobs - 1
 			end
 
 		end
@@ -88,13 +97,23 @@ function game.update(dt)
 			spawnTimer = spawnTimer - 0.5
 		end
 
+		if game.jobs <= 0 then
+			state.setState('gameover')
+		end
+
+	end
+
+	if state.isCurrentState('gameover') then
+
+		gameover.update(dt)
+
 	end
 
 end
 
 function game.drawtop()
 
-	if state.isCurrentState('menu') or state.isCurrentState('about') then
+	if not state.isCurrentState('game') then
 
 		love.graphics.setColor(255, 255, 255)
 
@@ -140,33 +159,44 @@ function game.drawbottom()
 
 		love.graphics.setFont(game.bigFont)
 
-		local numOfCitizens = 0
-
-		for i, person in ipairs(game.citizens) do
-			if person.state == 'running' then
-				numOfCitizens = numOfCitizens + 1
-			end
-		end
-
-		local text = 'Citizens Remaining: ' .. numOfCitizens
+		local text = 'Jobs Remaining: ' .. game.jobs
 		local x = (botScreenWidth / 2) - (game.bigFont:getWidth(text) / 2)
 		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2)
 
 		love.graphics.print(text, x, y)
 
 		local text = 'Currently Eaten: ' .. game.player.eaten
-		local x = (botScreenWidth / 2) - (game.bigFont:getWidth(text) / 2)
-		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2)
+		local width = (30 * game.maxeaten)
+		local x = (botScreenWidth / 2) - (width / 2)
+		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2) + 35
 
-		love.graphics.print(text, x, y + game.bigFont:getHeight())
+		love.graphics.rectangle('line', x, y, width, 25)
+
+		if game.player.eaten > game.maxeaten / 4 then
+			love.graphics.setColor(237, 206, 66)
+		end
+
+		if game.player.eaten > game.maxeaten / 2 then
+			love.graphics.setColor(255, 145, 0)
+		end
+
+		love.graphics.rectangle('fill', x, y, (30 * game.player.eaten), 25)
 
 		love.graphics.setFont(defaultFont)
+
+		love.graphics.setColor(255, 255, 255)
 
 	end
 
 	if state.isCurrentState('about') then
 
 		about.draw()
+
+	end
+
+	if state.isCurrentState('gameover') then
+
+		gameover.draw()
 
 	end
 

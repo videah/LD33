@@ -20,66 +20,32 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local Citizen = class('Citizen')
+local gameover = {}
 
-function Citizen:initialize(x, y, w, h, state)
+local sadTrump =  love.graphics.newImage('game/images/sadtrump.png')
 
-	self.race = math.random(1, 4)
+function gameover.draw()
 
-	self.happyImage = love.graphics.newImage('game/images/citizenHappy.png')
-	self.sadImage = love.graphics.newImage('game/images/citizenSad.png')
+	love.graphics.draw(sadTrump, 0, 0)
 
-	self.image = self.happyImage
+	love.graphics.print('They took all our jobs', sadTrump:getWidth() + 5, 20)
+	love.graphics.print('This once great country,', sadTrump:getWidth() + 5, 40)
+	love.graphics.print('\'murica, has been ruined.', sadTrump:getWidth() + 5, 60)
 
-	self.width = w
-	self.height = h
+	if is3DS then
 
-	self.x = x or math.random(0, topScreenWidth)
-	self.y = y or 0
-
-	self.speed = 200
-	self.direction = 'up'
-	
-	self.state = state or 'running'
-
-	self.speed = 50
-
-	print('Created Citizen. ID = ' .. #game.citizens)
-
-end
-
-function Citizen:update(dt)
-
-	if self.state == 'running' then
-
-		self.y = self.y + self.speed * dt
+		love.graphics.print('Press Start to quit.', sadTrump:getWidth() + 5, botScreenHeight - 20)
 
 	else
 
-		self.image = self.sadImage
-
-		self.y = self.y - (self.speed * 4) * dt
+		love.graphics.print('Press Escape to quit.', sadTrump:getWidth() + 5, botScreenHeight - 20)
 
 	end
 
 end
 
-function Citizen:draw()
-
-	if self.race == 1 then
-		love.graphics.setColor(115, 77, 77, 255)
-	elseif self.race == 2 then
-		love.graphics.setColor(255, 255, 0, 255)
-	elseif self.race == 3 then
-		love.graphics.setColor(56, 209, 110, 255)
-	elseif self.race == 4 then
-		love.graphics.setColor(255, 145, 0)
-	end
-
-	love.graphics.draw(self.image, self.x, self.y)
-
-	love.graphics.setColor(255, 255, 255)
+function gameover.update(dt)
 
 end
 
-return Citizen
+return gameover
