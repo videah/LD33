@@ -26,12 +26,15 @@ state = require 'game.state'
 input = require 'game.input'
 
 local menu = require 'game.menu'
+local citizen = require 'game.entities.citizen'
+
+game.citizens = {}
 
 function game.load()
 
 	state.setState('menu')
 
-	print('Loaded "game"')
+	game.generate(50)
 
 	game.player = require 'game.entities.player':new(0, 0, 50, 50)
 
@@ -41,8 +44,9 @@ function game.load()
 
 	game.bgImage = love.graphics.newImage('game/images/bg.png')
 
-	game.offsetX = 0
-	game.offsetY = 0
+	game.bigFont = love.graphics.newFont('fonts/Vera.ttf', 25)
+
+	print('Loaded "game"')
 
 end
 
@@ -58,6 +62,13 @@ function game.update(dt)
 
 		game.player:update(dt)
 
+		for i, person in ipairs(game.citizens) do
+			if game.player:isTouching(person.x, person.y) then
+				table.remove(game.citizens, i)
+				game.player.eaten = game.player.eaten + 1
+			end
+		end
+
 	end
 
 end
@@ -66,6 +77,8 @@ function game.drawtop()
 
 	if state.isCurrentState('menu') then
 
+		love.graphics.setBackgroundColor(50, 50, 200)
+
 		menu.drawtop()
 
 	end
@@ -73,6 +86,10 @@ function game.drawtop()
 	if state.isCurrentState('game') then
 
 		love.graphics.draw(game.bgImage, 0, 0) -- Background
+
+		for i, person in ipairs(game.citizens) do
+			person:draw()
+		end
 
 		game.player:draw()
 
@@ -94,6 +111,24 @@ function game.drawbottom()
 
 	if state.isCurrentState('game') then
 
+		love.graphics.setBackgroundColor(50, 50, 200)
+
+		love.graphics.setFont(game.bigFont)
+
+		local text = 'Citizens Remaining: ' .. #game.citizens
+		local x = (botScreenWidth / 2) - (game.bigFont:getWidth(text) / 2)
+		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2)
+
+		love.graphics.print(text, x, y)
+
+		local text = 'Number Eaten: ' .. game.player.eaten
+		local x = (botScreenWidth / 2) - (game.bigFont:getWidth(text) / 2)
+		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2)
+
+		love.graphics.print(text, x, y + game.bigFont:getHeight())
+
+		love.graphics.setFont(defaultFont)
+
 	end
 
 end
@@ -112,6 +147,14 @@ function game.keypressed(key, isrepeat)
 
 		menu.keypressed(key, isrepeat)
 
+	end
+
+end
+
+function game.generate(num)
+
+	for i=1, num do
+		table.insert(game.citizens, citizen:new(8, 8, #game.citizens + 1))
 	end
 
 end

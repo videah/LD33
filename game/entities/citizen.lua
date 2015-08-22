@@ -22,46 +22,24 @@
 
 local Citizen = class('Citizen')
 
-function Citizen:initialize(x, y, w, h)
+function Citizen:initialize(w, h, id)
 
 	self.width = w
 	self.height = h
 
-	self.x = (topScreenWidth / 2) - (self.width / 2)
-	self.y = (topScreenHeight / 2) - (self.height / 2)
+	self.x = math.random(0, topScreenWidth)
+	self.y = math.random(0, topScreenHeight)
 
 	self.speed = 200
 	self.direction = 'up'
+	self.id = id
 
-	print('Created Citizen.')
+	print('Created Citizen. ID = ' .. self.id)
 
 end
 
 function Citizen:update(dt)
 
-	if input.isLeft() then
-
-		self.x = self.x - (self.speed * dt)
-
-	end
-
-	if input.isRight() then
-
-		self.x = self.x + (self.speed * dt)
-
-	end
-
-	if input.isUp() then
-
-		self.y = self.y - (self.speed * dt)
-
-	end
-
-	if input.isDown() then
-
-		self.y = self.y + (self.speed * dt)
-
-	end
 
 end
 
@@ -69,7 +47,7 @@ function Citizen:draw()
 
 	love.graphics.setColor(155, 0, 0, 255)
 
-	love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+	love.graphics.circle('fill', self.x, self.y, self.width, self.height)
 
 end
 

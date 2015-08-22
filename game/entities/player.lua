@@ -30,6 +30,8 @@ function Player:initialize(x, y, w, h)
 	self.x = (topScreenWidth / 2) - (self.width / 2)
 	self.y = (topScreenHeight / 2) - (self.height / 2)
 
+	self.eaten = 0
+
 	self.speed = 200
 	self.direction = 'up'
 
@@ -70,6 +72,16 @@ function Player:draw()
 	love.graphics.setColor(155, 0, 0, 255)
 
 	love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+
+end
+
+function Player:isTouching(x, y)
+
+	if x > self.x and x < self.x + self.width and y > self.y and y < self.y + self.height then
+		return true
+	else
+		return false
+	end
 
 end
 
