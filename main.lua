@@ -39,6 +39,7 @@ function love.load()
 	is3DS = (love.system.getOS() == '3ds')
 
 	defaultFont = love.graphics.newFont('fonts/Vera.ttf', 13)
+
 	love.graphics.setFont(defaultFont)
 
 	game.load()

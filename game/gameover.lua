@@ -47,8 +47,4 @@ function gameover.draw()
 
 end
 
-function gameover.update(dt)
-
-end
-
 return gameover

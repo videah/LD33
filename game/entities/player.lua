@@ -55,28 +55,28 @@ function Player:update(dt)
 
 	if input.isLeft() then
 
-		dx = -1
+		if self.x > 0 then dx = -1 end
 		self.currentImage = self.leftImage
 
 	end
 
 	if input.isRight() then
 
-		dx = 1
+		if self.x < (topScreenWidth - self.width) then dx = 1 end
 		self.currentImage = self.rightImage
 
 	end
 
 	if input.isUp() then
 
-		dy = -1
+		if self.y > 30 then dy = -1 end
 		self.currentImage = self.backImage
 
 	end
 
 	if input.isDown() then
 
-		dy = 1
+		if self.y < (topScreenHeight - self.height) then dy = 1 end
 		self.currentImage = self.frontImage
 
 	end

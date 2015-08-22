@@ -23,7 +23,6 @@
 local menu = {}
 menu.options = {}
 menu.selected = 1
-menu.font = love.graphics.newFont('fonts/Vera.ttf', 24)
 
 -- Menu Options --
 
@@ -58,8 +57,8 @@ function menu.update(dt)
 
 	for i, option in ipairs(menu.options) do
 
-		local y = (i - 1) * (menu.font:getHeight() + 15) + 50
-		local x = (botScreenWidth / 2) - (menu.font:getWidth(option.name) / 2)
+		local y = (i - 1) * (defaultFont:getHeight() + 15) + 50
+		local x = (botScreenWidth / 2) - (defaultFont:getWidth(option.name) / 2)
 
 		option:setPos(x, y)
 
@@ -79,8 +78,6 @@ end
 
 function menu.drawbot()
 
-	love.graphics.setFont(menu.font)
-
 	for i, option in ipairs(menu.options) do
 
 		if option.selected then
@@ -92,8 +89,6 @@ function menu.drawbot()
 		option:draw()
 
 	end
-
-	love.graphics.setFont(defaultFont)
 
 end
 

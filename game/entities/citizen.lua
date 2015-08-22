@@ -34,7 +34,7 @@ function Citizen:initialize(x, y, w, h, state)
 	self.width = w
 	self.height = h
 
-	self.x = x or math.random(0, topScreenWidth)
+	self.x = x or math.random(16, topScreenWidth - 16)
 	self.y = y or 0
 
 	self.speed = 200

@@ -47,8 +47,6 @@ function game.load()
 
 	game.bgImage = love.graphics.newImage('game/images/bg.png')
 
-	game.bigFont = love.graphics.newFont('fonts/Vera.ttf', 25)
-
 	spawnTimer = 0
 
 	game.jobs = 5
@@ -103,12 +101,6 @@ function game.update(dt)
 
 	end
 
-	if state.isCurrentState('gameover') then
-
-		gameover.update(dt)
-
-	end
-
 end
 
 function game.drawtop()
@@ -127,6 +119,8 @@ function game.drawtop()
 
 		love.graphics.draw(game.bgImage, 0, 0) -- Background
 
+		love.graphics.line(0, 100, topScreenWidth, 100)
+
 		for i, person in ipairs(game.citizens) do
 			person:draw()
 		end
@@ -143,8 +137,6 @@ function game.drawbottom()
 
 	love.graphics.setBackgroundColor(34, 64, 154)
 
-	love.graphics.setFont(defaultFont)
-
 	love.graphics.print('FPS: ' .. love.timer.getFPS(), 0, 0)
 
 	if state.isCurrentState('menu') then
@@ -157,18 +149,16 @@ function game.drawbottom()
 
 		love.graphics.setBackgroundColor(50, 50, 200)
 
-		love.graphics.setFont(game.bigFont)
-
 		local text = 'Jobs Remaining: ' .. game.jobs
-		local x = (botScreenWidth / 2) - (game.bigFont:getWidth(text) / 2)
-		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2)
+		local x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
+		local y = (botScreenHeight / 2) - (defaultFont:getHeight() / 2)
 
 		love.graphics.print(text, x, y)
 
 		local text = 'Currently Eaten: ' .. game.player.eaten
 		local width = (30 * game.maxeaten)
 		local x = (botScreenWidth / 2) - (width / 2)
-		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2) + 35
+		local y = (botScreenHeight / 2) - (defaultFont:getHeight() / 2) + 35
 
 		love.graphics.rectangle('line', x, y, width, 25)
 
@@ -189,10 +179,8 @@ function game.drawbottom()
 		love.graphics.setColor(255, 255, 255)
 
 		if game.player.eaten == game.maxeaten then
-			love.graphics.print('FULL', (x + width / 2) - (game.bigFont:getWidth('FULL') / 2), y)
+			love.graphics.print('FULL', (x + width / 2) - (defaultFont:getWidth('FULL') / 2), y + (defaultFont:getHeight() / 2))
 		end
-
-		love.graphics.setFont(defaultFont)
 
 	end
 
