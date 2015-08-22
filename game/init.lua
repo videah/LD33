@@ -180,11 +180,19 @@ function game.drawbottom()
 			love.graphics.setColor(255, 145, 0)
 		end
 
+		if game.player.eaten == game.maxeaten then
+			love.graphics.setColor(255, 0, 0)
+		end
+
 		love.graphics.rectangle('fill', x, y, (30 * game.player.eaten), 25)
 
-		love.graphics.setFont(defaultFont)
-
 		love.graphics.setColor(255, 255, 255)
+
+		if game.player.eaten == game.maxeaten then
+			love.graphics.print('FULL', (x + width / 2) - (game.bigFont:getWidth('FULL') / 2), y)
+		end
+
+		love.graphics.setFont(defaultFont)
 
 	end
 
@@ -219,7 +227,13 @@ function game.keypressed(key, isrepeat)
 	end
 
 	if key == 'start' or key == 'escape' then
+
+		if state.isCurrentState('gameover') or state.isCurrentState('game') then
+			game.reset()
+		end
+
 		state.setState('menu')
+
 	end
 
 	if state.isCurrentState('game') then
@@ -235,6 +249,23 @@ function game.generate(num)
 	for i=1, num do
 		table.insert(game.citizens, citizen:new(nil, nil, 8, 8))
 	end
+
+end
+
+function game.reset()
+
+	game.citizens = {}
+
+	game.player = require 'game.entities.player':new(0, 0, 50, 50)
+
+	spawnTimer = 0
+
+	game.jobs = 5
+
+	game.maxeaten = 5
+
+	print('Game Reset!')
+
 
 end
 
