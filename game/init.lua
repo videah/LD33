@@ -119,7 +119,7 @@ function game.drawtop()
 
 		love.graphics.draw(game.bgImage, 0, 0) -- Background
 
-		love.graphics.line(0, 100, topScreenWidth, 100)
+		love.graphics.rectangle('fill', 0, 100 + game.player.height, topScreenWidth, 1)
 
 		for i, person in ipairs(game.citizens) do
 			person:draw()
@@ -149,16 +149,33 @@ function game.drawbottom()
 
 		love.graphics.setBackgroundColor(50, 50, 200)
 
-		local text = 'Jobs Remaining: ' .. game.jobs
+		love.graphics.setColor(0, 200, 0)
+
+		local text = 'Press A to launch people over wall'
 		local x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
-		local y = (botScreenHeight / 2) - (defaultFont:getHeight() / 2)
+		local y = (botScreenHeight / 3) - (defaultFont:getHeight() / 2)
+
+		if game.player.y < 100 and game.player.eaten > 0 then love.graphics.print(text, x, y) end
+
+		text = 'You need to be in The Trump Zone to launch'
+		x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
+
+		love.graphics.setColor(255, 0, 0)
+
+		if game.player.y > 100 and game.player.eaten > 0 then love.graphics.print(text, x, y) end
+
+		love.graphics.setColor(255, 255, 255)
+
+		text = 'Jobs Remaining: ' .. game.jobs
+		x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
+		y = (botScreenHeight / 2) - (defaultFont:getHeight() / 2)
 
 		love.graphics.print(text, x, y)
 
-		local text = 'Currently Eaten: ' .. game.player.eaten
-		local width = (30 * game.maxeaten)
-		local x = (botScreenWidth / 2) - (width / 2)
-		local y = (botScreenHeight / 2) - (defaultFont:getHeight() / 2) + 35
+		text = 'Currently Eaten: ' .. game.player.eaten
+		width = (30 * game.maxeaten)
+		x = (botScreenWidth / 2) - (width / 2)
+		y = (botScreenHeight / 2) - (defaultFont:getHeight() / 2) + 35
 
 		love.graphics.rectangle('line', x, y, width, 25)
 

@@ -101,7 +101,7 @@ end
 
 function Player:isTouching(x, y)
 
-	return (x > self.x and x < self.x + self.width and y > self.y and y < self.y + self.height)
+	return (x > self.x - 16 and x < self.x + self.width and y > self.y and y < self.y + self.height)
 
 end
 
