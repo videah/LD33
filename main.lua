@@ -47,8 +47,6 @@ function love.update(dt)
 
 	game.update(dt)
 
-	if love.keyboard.isDown('start') then love.event.quit() end
-
 end
 
 function love.draw()

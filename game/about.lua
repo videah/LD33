@@ -32,6 +32,8 @@ function about.draw()
 
 	love.graphics.print('About', x, y)
 
+	love.graphics.setFont(defaultFont)
+
 end
 
 return about

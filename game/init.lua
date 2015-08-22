@@ -159,6 +159,10 @@ function game.keypressed(key, isrepeat)
 
 	end
 
+	if key == 'start' or key == 'escape' then
+		state.setState('menu')
+	end
+
 end
 
 function game.generate(num)
