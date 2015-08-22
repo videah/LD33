@@ -30,9 +30,17 @@ function game.load()
 	state.setState('menu')
 
 	print('Loaded "game"')
+
+	game.player = require 'game.entities.player':new(0, 0, 50, 50)
+
 	menu.newOption('Play', function() state.setState('game') end)
 	menu.newOption('About', function() state.setState('about') end)
 	menu.newOption('Quit', function() love.event.quit() end)
+
+	game.bgImage = love.graphics.newImage('game/images/bg.png')
+
+	game.offsetX = 0
+	game.offsetY = 0
 
 end
 
@@ -41,6 +49,12 @@ function game.update(dt)
 	if state.isCurrentState('menu') then
 
 		menu.update(dt)
+
+	end
+
+	if state.isCurrentState('game') then
+
+		game.player:update(dt)
 
 	end
 
@@ -54,6 +68,18 @@ function game.drawtop()
 
 	end
 
+	if state.isCurrentState('game') then
+
+		love.graphics.setColor(255, 255, 255, 255)
+
+		love.graphics.draw(game.bgImage, 0, 0)
+
+		love.graphics.rectangle('fill', 0, 0, topScreenWidth, topScreenHeight)
+
+		game.player:draw()
+
+	end
+
 end
 
 function game.drawbottom()
@@ -64,9 +90,17 @@ function game.drawbottom()
 
 	end
 
+	if state.isCurrentState('game') then
+
+	end
+
 end
 
 function game.mousepressed(button, x, y)
+
+	if state.isCurrentState('game') then
+
+	end
 
 end
 
