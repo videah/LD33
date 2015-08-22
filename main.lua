@@ -26,6 +26,8 @@ game = require 'game'
 
 function love.load()
 
+	math.randomseed(os.time())
+
 	topScreenWidth = 400
 	topScreenHeight = 240
 

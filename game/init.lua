@@ -36,8 +36,6 @@ function game.load()
 
 	state.setState('menu')
 
-	game.generate(50)
-
 	game.player = require 'game.entities.player':new(0, 0, 50, 50)
 
 	menu.newOption('Play', function() state.setState('game') end)
@@ -47,6 +45,8 @@ function game.load()
 	game.bgImage = love.graphics.newImage('game/images/bg.png')
 
 	game.bigFont = love.graphics.newFont('fonts/Vera.ttf', 25)
+
+	spawnTimer = 0
 
 	print('Loaded "game"')
 
@@ -65,10 +65,25 @@ function game.update(dt)
 		game.player:update(dt)
 
 		for i, person in ipairs(game.citizens) do
-			if game.player:isTouching(person.x, person.y) then
+
+			person:update(dt)
+
+			if game.player:isTouching(person.x, person.y) and game.player.eaten < 10 and person.state == 'running' then
 				table.remove(game.citizens, i)
 				game.player.eaten = game.player.eaten + 1
 			end
+
+			if person.y > topScreenHeight or person.y < 0 then
+				table.remove(game.citizens, i)
+			end
+
+		end
+
+		spawnTimer = spawnTimer + dt
+
+		if spawnTimer > 0.5 then 
+			game.generate(1)
+			spawnTimer = spawnTimer - 0.5
 		end
 
 	end
@@ -125,7 +140,7 @@ function game.drawbottom()
 
 		love.graphics.print(text, x, y)
 
-		local text = 'Number Eaten: ' .. game.player.eaten
+		local text = 'Currently Eaten: ' .. game.player.eaten
 		local x = (botScreenWidth / 2) - (game.bigFont:getWidth(text) / 2)
 		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2)
 
@@ -163,12 +178,18 @@ function game.keypressed(key, isrepeat)
 		state.setState('menu')
 	end
 
+	if state.isCurrentState('game') then
+
+		game.player:keypressed(key, isrepeat)
+
+	end
+
 end
 
 function game.generate(num)
 
 	for i=1, num do
-		table.insert(game.citizens, citizen:new(8, 8, #game.citizens + 1))
+		table.insert(game.citizens, citizen:new(nil, nil, 8, 8))
 	end
 
 end

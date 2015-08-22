@@ -22,24 +22,36 @@
 
 local Citizen = class('Citizen')
 
-function Citizen:initialize(w, h, id)
+function Citizen:initialize(x, y, w, h, state)
 
 	self.width = w
 	self.height = h
 
-	self.x = math.random(0, topScreenWidth)
-	self.y = math.random(0, topScreenHeight)
+	self.x = x or math.random(0, topScreenWidth)
+	self.y = y or 0
 
 	self.speed = 200
 	self.direction = 'up'
-	self.id = id
+	
+	self.state = state or 'running'
 
-	print('Created Citizen. ID = ' .. self.id)
+	self.speed = 50
+
+	print('Created Citizen. ID = ' .. #game.citizens)
 
 end
 
 function Citizen:update(dt)
 
+	if self.state == 'running' then
+
+		self.y = self.y + self.speed * dt
+
+	else
+
+		self.y = self.y - (self.speed * 5) * dt
+
+	end
 
 end
 

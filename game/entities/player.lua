@@ -22,6 +22,8 @@
 
 local Player = class('Player')
 
+local Citizen = require 'game.entities.citizen'
+
 function Player:initialize(x, y, w, h)
 
 	self.width = w
@@ -77,10 +79,28 @@ end
 
 function Player:isTouching(x, y)
 
-	if x > self.x and x < self.x + self.width and y > self.y and y < self.y + self.height then
-		return true
-	else
-		return false
+	return (x > self.x and x < self.x + self.width and y > self.y and y < self.y + self.height)
+
+end
+
+function Player:keypressed(key, isrepeat)
+
+	if key == 'a' or key == 'space' then
+		if self.y < 75 then
+
+			for i=1, self.eaten do
+
+				local x = self.x + math.random(1, self.width)
+				local y = self.y + math.random(1, self.height)
+
+				table.insert(game.citizens, Citizen:new(x, y, 8, 8, 'flying'))
+
+				self.eaten = 0
+
+			end
+
+		end
+
 	end
 
 end
