@@ -29,11 +29,17 @@ function gameover.draw()
 
 	love.graphics.draw(sadTrump, 0, 0)
 
-	love.graphics.print('They took all our jobs', sadTrump:getWidth() + 5, 20)
+	love.graphics.print('They took all our jobs.', sadTrump:getWidth() + 5, 20)
 	love.graphics.print('This once great country,', sadTrump:getWidth() + 5, 40)
 	love.graphics.print('\'murica, has been ruined.', sadTrump:getWidth() + 5, 60)
 
 	love.graphics.draw(burningFlag, sadTrump:getWidth(), 100)
+
+	love.graphics.setColor(255, 155, 155)
+
+	love.graphics.print('Amount thrown: ' .. game.totalThrown, sadTrump:getWidth() + 5, 100 + (burningFlag:getHeight() + 20))
+
+	love.graphics.setColor(255, 255, 255)
 
 	if is3DS then
 
