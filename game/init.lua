@@ -276,6 +276,8 @@ function game.reset()
 
 	game.maxeaten = 5
 
+	game.totalThrown = 0
+
 	print('Game Reset!')
 
 
