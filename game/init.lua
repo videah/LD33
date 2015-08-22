@@ -23,6 +23,8 @@
 local game = {}
 
 state = require 'game.state'
+input = require 'game.input'
+
 local menu = require 'game.menu'
 
 function game.load()
@@ -70,11 +72,7 @@ function game.drawtop()
 
 	if state.isCurrentState('game') then
 
-		love.graphics.setColor(255, 255, 255, 255)
-
-		love.graphics.draw(game.bgImage, 0, 0)
-
-		love.graphics.rectangle('fill', 0, 0, topScreenWidth, topScreenHeight)
+		love.graphics.draw(game.bgImage, 0, 0) -- Background
 
 		game.player:draw()
 
@@ -83,6 +81,10 @@ function game.drawtop()
 end
 
 function game.drawbottom()
+
+	love.graphics.setColor(255, 255, 255)
+
+	love.graphics.print('FPS: ' .. love.timer.getFPS(), 0, 0)
 
 	if state.isCurrentState('menu') then
 

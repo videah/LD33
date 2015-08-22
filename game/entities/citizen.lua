@@ -20,9 +20,9 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local Player = class('Player')
+local Citizen = class('Citizen')
 
-function Player:initialize(x, y, w, h)
+function Citizen:initialize(x, y, w, h)
 
 	self.width = w
 	self.height = h
@@ -33,11 +33,11 @@ function Player:initialize(x, y, w, h)
 	self.speed = 200
 	self.direction = 'up'
 
-	print('Created player.')
+	print('Created Citizen.')
 
 end
 
-function Player:update(dt)
+function Citizen:update(dt)
 
 	if input.isLeft() then
 
@@ -65,7 +65,7 @@ function Player:update(dt)
 
 end
 
-function Player:draw()
+function Citizen:draw()
 
 	love.graphics.setColor(155, 0, 0, 255)
 
@@ -73,4 +73,4 @@ function Player:draw()
 
 end
 
-return Player
+return Citizen

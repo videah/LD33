@@ -20,57 +20,32 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-local Player = class('Player')
+-- Messy as fuck input system, just to make porting easier.
 
-function Player:initialize(x, y, w, h)
+local input = {}
 
-	self.width = w
-	self.height = h
+function input.isUp()
 
-	self.x = (topScreenWidth / 2) - (self.width / 2)
-	self.y = (topScreenHeight / 2) - (self.height / 2)
-
-	self.speed = 200
-	self.direction = 'up'
-
-	print('Created player.')
+	return (love.keyboard.isDown('cpadup') or love.keyboard.isDown('dup') or love.keyboard.isDown('up'))
 
 end
 
-function Player:update(dt)
+function input.isDown()
 
-	if input.isLeft() then
-
-		self.x = self.x - (self.speed * dt)
-
-	end
-
-	if input.isRight() then
-
-		self.x = self.x + (self.speed * dt)
-
-	end
-
-	if input.isUp() then
-
-		self.y = self.y - (self.speed * dt)
-
-	end
-
-	if input.isDown() then
-
-		self.y = self.y + (self.speed * dt)
-
-	end
+	return (love.keyboard.isDown('cpaddown') or love.keyboard.isDown('ddown') or love.keyboard.isDown('down'))
 
 end
 
-function Player:draw()
+function input.isLeft()
 
-	love.graphics.setColor(155, 0, 0, 255)
-
-	love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+	return (love.keyboard.isDown('cpadleft') or love.keyboard.isDown('dleft') or love.keyboard.isDown('left'))
 
 end
 
-return Player
+function input.isRight()
+
+	return (love.keyboard.isDown('cpadright') or love.keyboard.isDown('dright') or love.keyboard.isDown('right'))
+
+end
+
+return input
