@@ -26,6 +26,8 @@ state = require 'game.state'
 input = require 'game.input'
 
 local menu = require 'game.menu'
+local about = require 'game.about'
+
 local citizen = require 'game.entities.citizen'
 
 game.citizens = {}
@@ -75,7 +77,7 @@ end
 
 function game.drawtop()
 
-	if state.isCurrentState('menu') then
+	if state.isCurrentState('menu') or state.isCurrentState('about') then
 
 		love.graphics.setBackgroundColor(50, 50, 200)
 
@@ -100,6 +102,8 @@ end
 function game.drawbottom()
 
 	love.graphics.setColor(255, 255, 255)
+
+	love.graphics.setFont(defaultFont)
 
 	love.graphics.print('FPS: ' .. love.timer.getFPS(), 0, 0)
 
@@ -128,6 +132,12 @@ function game.drawbottom()
 		love.graphics.print(text, x, y + game.bigFont:getHeight())
 
 		love.graphics.setFont(defaultFont)
+
+	end
+
+	if state.isCurrentState('about') then
+
+		about.draw()
 
 	end
 
