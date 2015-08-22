@@ -26,10 +26,7 @@ function Citizen:initialize(x, y, w, h, state)
 
 	self.race = math.random(1, 4)
 
-	self.happyImage = love.graphics.newImage('game/images/citizenHappy.png')
-	self.sadImage = love.graphics.newImage('game/images/citizenSad.png')
-
-	self.image = self.happyImage
+	self.image = happyImage
 
 	self.width = w
 	self.height = h
@@ -56,8 +53,6 @@ function Citizen:update(dt)
 
 	else
 
-		self.image = self.sadImage
-
 		self.y = self.y - (self.speed * 4) * dt
 
 	end
@@ -76,7 +71,15 @@ function Citizen:draw()
 		love.graphics.setColor(255, 145, 0)
 	end
 
-	love.graphics.draw(self.image, self.x, self.y)
+	if self.state == 'running' then
+
+		love.graphics.draw(happyImage, self.x, self.y)
+
+	else
+
+		love.graphics.draw(sadImage, self.x, self.y)
+
+	end
 
 	love.graphics.setColor(255, 255, 255)
 

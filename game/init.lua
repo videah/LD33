@@ -30,6 +30,8 @@ local about = require 'game.about'
 local gameover = require 'game.gameover'
 
 local citizen = require 'game.entities.citizen'
+happyImage = love.graphics.newImage('game/images/citizenHappy.png')
+sadImage = love.graphics.newImage('game/images/citizenSad.png')
 
 game.citizens = {}
 
@@ -50,6 +52,8 @@ function game.load()
 	spawnTimer = 0
 
 	game.jobs = 5
+
+	game.totalThrown = 0
 
 	game.maxeaten = 5
 
@@ -85,6 +89,9 @@ function game.update(dt)
 			if person.y > topScreenHeight then
 				game.jobs = game.jobs - 1
 			end
+
+			if person.y < 0 then game.totalThrown = game.totalThrown + 1 end
+
 
 		end
 
