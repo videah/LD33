@@ -26,6 +26,11 @@ local Citizen = require 'game.entities.citizen'
 
 function Player:initialize(x, y, w, h)
 
+	self.frontImage = love.graphics.newImage('game/images/trumpFront.png')
+	self.backImage = love.graphics.newImage('game/images/trumpBack.png')
+	self.leftImage = love.graphics.newImage('game/images/trumpLeft.png')
+	self.rightImage = love.graphics.newImage('game/images/trumpRight.png')
+
 	self.width = w
 	self.height = h
 
@@ -35,7 +40,10 @@ function Player:initialize(x, y, w, h)
 	self.eaten = 0
 
 	self.speed = 200
-	self.direction = 'up'
+
+	self.range = 100
+
+	self.currentImage = self.frontImage
 
 	print('Created player.')
 
@@ -43,37 +51,51 @@ end
 
 function Player:update(dt)
 
+	local dx, dy = 0, 0
+
 	if input.isLeft() then
 
-		self.x = self.x - (self.speed * dt)
+		dx = -1
+		self.currentImage = self.leftImage
 
 	end
 
 	if input.isRight() then
 
-		self.x = self.x + (self.speed * dt)
+		dx = 1
+		self.currentImage = self.rightImage
 
 	end
 
 	if input.isUp() then
 
-		self.y = self.y - (self.speed * dt)
+		dy = -1
+		self.currentImage = self.backImage
 
 	end
 
 	if input.isDown() then
 
-		self.y = self.y + (self.speed * dt)
+		dy = 1
+		self.currentImage = self.frontImage
 
 	end
+
+	local length = (dx ^ 2 + dy ^ 2) ^ 0.5
+
+	if length > 0 then
+		dx, dy = dx / length, dy / length
+	end
+
+	self.x, self.y = self.x + dx * self.speed * dt, self.y + dy * self.speed * dt
 
 end
 
 function Player:draw()
 
-	love.graphics.setColor(155, 0, 0, 255)
+	love.graphics.setColor(255, 255, 255, 255)
 
-	love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+	love.graphics.draw(self.currentImage, self.x, self.y)
 
 end
 
@@ -86,7 +108,7 @@ end
 function Player:keypressed(key, isrepeat)
 
 	if key == 'a' or key == 'space' then
-		if self.y < 75 then
+		if self.y < self.range then
 
 			for i=1, self.eaten do
 

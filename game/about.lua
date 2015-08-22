@@ -50,18 +50,23 @@ function about.draw()
 	love.graphics.setFont(defaultFont)
 
 	local text = 'This short game was made for Ludum Dare 33'
-	local x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
-	local y = 55 + 75
+	x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
+	y = 55 + 75
 
 	love.graphics.print(text, x, y)
 
-	local text = 'Powered by LOVE and LovePotion'
-	local x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
-	local y = y + defaultFont:getHeight()
+	text = 'Powered by LOVE and LovePotion'
+	x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
+	y = y + defaultFont:getHeight()
 
 	love.graphics.print(text, x, y)
 
-	local text = 'Press Start (or Escape) to go back.'
+	if is3DS then
+		text = 'Press Start to go back.'
+	else
+		text = 'Press Escape to go back.'
+	end
+
 	local x = (botScreenWidth / 2) - (defaultFont:getWidth(text) / 2)
 	local y = y + defaultFont:getHeight() * 3
 

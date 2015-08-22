@@ -24,6 +24,11 @@ local Citizen = class('Citizen')
 
 function Citizen:initialize(x, y, w, h, state)
 
+	self.race = math.random(1, 4)
+
+	self.happyImage = love.graphics.newImage('game/images/citizenHappy.png')
+	self.sadImage = love.graphics.newImage('game/images/citizenSad.png')
+
 	self.width = w
 	self.height = h
 
@@ -57,9 +62,19 @@ end
 
 function Citizen:draw()
 
-	love.graphics.setColor(155, 0, 0, 255)
+	if self.race == 1 then
+		love.graphics.setColor(115, 77, 77, 255)
+	elseif self.race == 2 then
+		love.graphics.setColor(255, 255, 0, 255)
+	elseif self.race == 3 then
+		love.graphics.setColor(56, 209, 110, 255)
+	elseif self.race == 4 then
+		love.graphics.setColor(255, 145, 0)
+	end
 
-	love.graphics.circle('fill', self.x, self.y, self.width, self.height)
+	love.graphics.draw(self.image, self.x, self.y)
+
+	love.graphics.setColor(255, 255, 255)
 
 end
 

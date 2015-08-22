@@ -34,6 +34,8 @@ game.citizens = {}
 
 function game.load()
 
+	game.logo = love.graphics.newImage('game/images/logo.png')
+
 	state.setState('menu')
 
 	game.player = require 'game.entities.player':new(0, 0, 50, 50)
@@ -94,9 +96,11 @@ function game.drawtop()
 
 	if state.isCurrentState('menu') or state.isCurrentState('about') then
 
-		love.graphics.setBackgroundColor(50, 50, 200)
+		love.graphics.setColor(255, 255, 255)
 
-		menu.drawtop()
+		love.graphics.rectangle('fill', 0, 0, topScreenWidth, topScreenHeight)
+
+		love.graphics.draw(game.logo, 0, 0)
 
 	end
 
@@ -118,6 +122,8 @@ function game.drawbottom()
 
 	love.graphics.setColor(255, 255, 255)
 
+	love.graphics.setBackgroundColor(34, 64, 154)
+
 	love.graphics.setFont(defaultFont)
 
 	love.graphics.print('FPS: ' .. love.timer.getFPS(), 0, 0)
@@ -134,7 +140,15 @@ function game.drawbottom()
 
 		love.graphics.setFont(game.bigFont)
 
-		local text = 'Citizens Remaining: ' .. #game.citizens
+		local numOfCitizens = 0
+
+		for i, person in ipairs(game.citizens) do
+			if person.state == 'running' then
+				numOfCitizens = numOfCitizens + 1
+			end
+		end
+
+		local text = 'Citizens Remaining: ' .. numOfCitizens
 		local x = (botScreenWidth / 2) - (game.bigFont:getWidth(text) / 2)
 		local y = (botScreenHeight / 2) - (game.bigFont:getHeight() / 2)
 
